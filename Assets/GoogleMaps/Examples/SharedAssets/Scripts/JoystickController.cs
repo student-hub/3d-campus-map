@@ -60,7 +60,7 @@ namespace Google.Maps.Demos.Utilities {
       InputDirection = Vector3.zero;
 
       // Hide by default
-      gameObject.transform.parent.gameObject.SetActive(false);
+      gameObject.transform.parent.gameObject.SetActive(true);
 
       // If the example isn't run on mobile devices, hide the joystick
       #if (UNITY_IOS || UNITY_ANDROID) && !UNITY_EDITOR
