@@ -1249,6 +1249,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c9e5fe175e19249658c057a1ccd681fa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  mapsService: {fileID: 347017281}
 --- !u!1001 &1083170546
 PrefabInstance:
   m_ObjectHideFlags: 0

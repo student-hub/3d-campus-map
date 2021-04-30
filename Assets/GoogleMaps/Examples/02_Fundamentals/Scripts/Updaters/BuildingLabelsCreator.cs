@@ -1,6 +1,11 @@
 ﻿using UnityEngine;
+using UnityEngine.Networking;
 using Google.Maps.Event;
 using Google.Maps.Examples.Shared;
+using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
+using System;
 
 namespace Google.Maps.Examples {
   /// <summary>
@@ -13,6 +18,14 @@ namespace Google.Maps.Examples {
     /// The Labeller used to create building labels.
     /// </summary>
     private MapLabeller Labeller;
+
+    public MapsService mapsService;
+
+    private Dictionary<string, string> namedPlaces = new Dictionary<string, string>(){
+      { "ChIJ3w9Ub8EBskARp2zFSYUOjdk", "Corp AN" },
+      { "ChIJte0v2cMBskARt9YM0wfr5Fc", "Rectorat" },
+      {"ChIJY3fgn8EBskARwVrAnuRzyoU", "Corp BN" },
+    };
 
     void Awake() {
       Labeller = GetComponent<MapLabeller>();
@@ -56,14 +69,47 @@ namespace Google.Maps.Examples {
       if (!Labeller.enabled)
         return;
 
+      if (namedPlaces.ContainsKey(placeId))
+      {
+        displayName = namedPlaces[placeId];
+      }
+
       // Ignore uninteresting names.
-      /*if (displayName.Equals("ExtrudedStructure") || displayName.Equals("ModeledStructure")) {
+      if (displayName.Equals("ExtrudedStructure") || displayName.Equals("ModeledStructure"))
+      {
         return;
-      }*/
+      }
+
 
       Label label = Labeller.NameObject(buildingGameObject, placeId, displayName);
       if (label != null) {
         MapsGamingExamplesUtils.PlaceUIMarker(buildingGameObject, label.transform);
+      }
+    }
+
+    // Fetch the name of a place via the Places API.
+    IEnumerator GetPlaceName(GameObject buildingGameObject, string placeId)
+    {
+      string url = $"https://maps.googleapis.com/maps/api/place/details/json?placeid={placeId}&key={mapsService.ApiKey}";
+      Debug.Log(url);
+      UnityWebRequest www = UnityWebRequest.Get(url);
+      yield return www.SendWebRequest();
+
+      if (www.result != UnityWebRequest.Result.Success)
+      {
+        Debug.Log(www.error);
+      }
+      else
+      {
+        Debug.Log(www.downloadHandler.text);
+        var attributes = JsonUtility.FromJson<Place>(www.downloadHandler.text);
+        string displayName = attributes.result.name;
+
+        Label label = Labeller.NameObject(buildingGameObject, placeId, displayName);
+        if (label != null)
+        {
+          MapsGamingExamplesUtils.PlaceUIMarker(buildingGameObject, label.transform);
+        }
       }
     }
   }
