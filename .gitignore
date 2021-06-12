@@ -59,6 +59,7 @@ sysinfo.txt
 *.apk
 *.aab
 *.unitypackage
+!FlutterUnityIntegration*
 
 # Crashlytics generated file
 crashlytics-build.properties
