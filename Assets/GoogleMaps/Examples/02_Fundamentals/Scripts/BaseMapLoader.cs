@@ -25,7 +25,7 @@ namespace Google.Maps.Examples {
   /// </summary>
   public class BaseMapLoader : MonoBehaviour {
     [Tooltip("LatLng to load (must be set before hitting play).")]
-    public LatLng LatLng = new LatLng(44.438200, 26.052450);
+    public LatLng LatLng = new LatLng(44.436949, 26.052051);
 
     /// <summary>
     /// The <see cref="MapsService"/> is the entry point to communicate with to the Maps SDK for
