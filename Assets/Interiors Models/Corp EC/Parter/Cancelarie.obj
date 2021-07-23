@@ -1,0 +1,15 @@
+# Blender v2.91.2 OBJ File: 'Parter_2.blend'
+# www.blender.org
+mtllib Cancelarie.mtl
+o Cancelarie_Plane.005
+v -1.135023 0.000000 -0.853561
+v -0.748553 0.000000 -0.853561
+v -1.135023 0.000000 -1.712565
+v -0.748553 0.000000 -1.712565
+vt 0.000000 0.000000
+vt 1.000000 0.000000
+vt 1.000000 1.000000
+vt 0.000000 1.000000
+usemtl Albastru
+s off
+f 1/1 2/2 4/3 3/4
