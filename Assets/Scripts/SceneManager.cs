@@ -27,10 +27,14 @@ public class SceneManager : MonoBehaviour
     public GameObject TwoFloorPanel;
     public Button F1, F2;
 
+    public GameObject popUpPanel;
+    public Button popUp_Yes, popUp_No;
+
     string lastPanelShowed, currentPanel;
     int roomNumber = -1;
     string buildingName;
     bool userCameraOn = false;
+    bool routeCreated = false;
     Transform buildingInterior;
 
     // Start is called before the first frame update
@@ -90,8 +94,23 @@ public class SceneManager : MonoBehaviour
 
         F1.onClick.AddListener(F1ButtonClicked);
         F2.onClick.AddListener(F2ButtonClicked);
+
+        popUp_Yes.onClick.AddListener(popUpYesButtonClicked);
+        popUp_No.onClick.AddListener(popUpNoButtonClicked);
     }
 
+    void popUpYesButtonClicked()
+    {
+        popUpPanel.gameObject.SetActive(false);
+        FindObjectOfType<NavScript>().DeleteDestination();
+        routeCreated = false;
+        searchButtonClicked();
+    }
+
+    void popUpNoButtonClicked()
+    {
+        popUpPanel.gameObject.SetActive(false);
+    }
     void F1ButtonClicked()
     {
         for(int i=0;i<buildingInterior.childCount;i++)
@@ -132,9 +151,16 @@ public class SceneManager : MonoBehaviour
     }
     void searchButtonClicked()
     {
-        currentPanel = "SearchPanel";
-        DisableLastPanel();
-        ShowPanel(currentPanel);
+        if (routeCreated)
+        {
+            popUpPanel.gameObject.SetActive(true);
+        }
+        else
+        {
+            currentPanel = "SearchPanel";
+            DisableLastPanel();
+            ShowPanel(currentPanel);
+        }
     }
     void favoritesButtonClicked()
     {
@@ -361,6 +387,7 @@ public class SceneManager : MonoBehaviour
         mapCamera.gameObject.SetActive(false);
         userCamera.gameObject.SetActive(true);
         userCameraOn = true;
+        routeCreated = true;
         changeViewButton.interactable = false;
         DisableFloorPanel();
     }
